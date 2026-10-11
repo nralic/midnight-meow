@@ -1,0 +1,17 @@
+# NetBeans
+/nbproject/private/
+/build/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Compiled Java files
+*.class
+
+# IDE files
+.idea/
+.vscode/
+
+# Operating system files
+.DS_Store
+Thumbs.db
