@@ -17,7 +17,7 @@ public class Cat {
     private int size;
 
     private int velocityY;
-    private int gravity;
+    private final int gravity;
 
     private Image img;
 
@@ -71,6 +71,10 @@ public class Cat {
             y = 0;
             velocityY = 0;
         }
+    }
+
+    public void boost() {
+        velocityY = -10;
     }
 
 }
