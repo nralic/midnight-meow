@@ -14,11 +14,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import smellycat.components.Cat;
 import smellycat.components.Pipe;
 import smellycat.enums.GameStatus;
+import smellycat.storage.ScoreStorage;
 
 /**
  *
@@ -30,7 +33,7 @@ public class GamePanel extends JPanel implements KeyListener {
     private final int height;
 
     //private Image background;
-    private final Cat cat;
+    private Cat cat;
 
     private final Timer gameLoop;
     private final Timer pipeTimer;
@@ -40,6 +43,9 @@ public class GamePanel extends JPanel implements KeyListener {
     GameStatus status;
 
     private int score;
+    private int bestScore;
+
+    private JButton btnRestart;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -67,6 +73,10 @@ public class GamePanel extends JPanel implements KeyListener {
         pipeTimer = new Timer(2500, (ActionEvent e) -> {
             placePipes();
         });
+
+        addRestartButton();
+
+        bestScore = ScoreStorage.loadBestScore();
     }
 
     @Override
@@ -137,6 +147,31 @@ public class GamePanel extends JPanel implements KeyListener {
                 int x = (width - metrics.stringWidth(text)) / 2;
                 int y = (int) (height / 2.5);
                 g.drawString(text, x, y);
+
+                // restart
+                this.add(btnRestart);
+
+                // score
+                text = "Your score: " + score;
+                g.setFont(new Font("Monospaced", Font.BOLD, 20));
+                metrics = g.getFontMetrics();
+                x = (width - metrics.stringWidth(text)) / 2;
+                y = height - 200;
+                g.drawString(text, x, y);
+
+                // best score
+                if (score > bestScore) {
+                    bestScore = score;
+                    ScoreStorage.saveBestScore(score);
+                    text = "New best score!";
+                } else {
+                    text = "Best score: " + bestScore;
+                }
+                g.setFont(new Font("Monospaced", Font.BOLD, 20));
+                metrics = g.getFontMetrics();
+                x = (width - metrics.stringWidth(text)) / 2;
+                y += 50;
+                g.drawString(text, x, y);
             }
             default -> {
             }
@@ -206,6 +241,32 @@ public class GamePanel extends JPanel implements KeyListener {
             }
         }
         return false;
+    }
+
+    private void restartGame() {
+        cat = new Cat(width, height);
+
+        pipes.clear();
+
+        score = 0;
+
+        status = GameStatus.START;
+
+        this.remove(btnRestart);
+
+        repaint();
+    }
+
+    private void addRestartButton() {
+        btnRestart = new JButton("↻");
+        btnRestart.setFont(new Font("Monospaced", Font.BOLD, 20));
+        btnRestart.setForeground(Color.white);
+        btnRestart.setBackground(Color.orange);
+        btnRestart.setBorder(BorderFactory.createLineBorder(Color.white, 2, true));
+        btnRestart.setBounds(width - 85, 50, 35, 35);
+        btnRestart.addActionListener((ActionEvent e) -> {
+            restartGame();
+        });
     }
 
 }
