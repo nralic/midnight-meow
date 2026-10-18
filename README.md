@@ -2,8 +2,6 @@
 
 A Halloween-themed game inspired by Flappy Bird, developed in Java using Swing.
 
-🧙‍♀️ Play as a flying witch cat, avoid obstacles, and try to beat your best score! With spooky visuals, Halloween background music, and a jumpscare, the game puts a spooky twist on the classic arcade concept.
-
 ## ✨ Features
 
 - 🐈‍⬛ Flying witch cat controlled by keyboard input
