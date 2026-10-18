@@ -9,12 +9,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -32,7 +34,8 @@ public class GamePanel extends JPanel implements KeyListener {
     private final int width;
     private final int height;
 
-    //private Image background;
+    private final Image background;
+
     private Cat cat;
 
     private final Timer gameLoop;
@@ -47,6 +50,8 @@ public class GamePanel extends JPanel implements KeyListener {
 
     private JButton btnRestart;
 
+    private final Image endImg;
+
     public GamePanel(int width, int height) {
         this.width = width;
         this.height = height;
@@ -55,17 +60,19 @@ public class GamePanel extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
+        background = new ImageIcon(getClass().getResource("/resources/images/Background4.png")).getImage();
+
         status = GameStatus.START;
 
         score = 0;
 
-        //background = new ImageIcon(location)
         cat = new Cat(width, height);
 
         pipes = new ArrayList<>();
 
         gameLoop = new Timer(1000 / 60, (ActionEvent e) -> {
             move();
+            cat.updateAnimation();
             gameOver();
             repaint();
         });
@@ -75,8 +82,11 @@ public class GamePanel extends JPanel implements KeyListener {
         });
 
         addRestartButton();
+        btnRestart.setVisible(false);
 
         bestScore = ScoreStorage.loadBestScore();
+
+        endImg = new ImageIcon(getClass().getResource("/resources/images/EvilBox1.png")).getImage();
     }
 
     @Override
@@ -87,8 +97,6 @@ public class GamePanel extends JPanel implements KeyListener {
 
     private void draw(Graphics g) {
 
-        // background
-        // g.drawImage(background, 0, 0, width, height, null);
         g.setColor(Color.black);
         g.fillRect(0, 0, width, height);
 
@@ -115,19 +123,54 @@ public class GamePanel extends JPanel implements KeyListener {
                 g.drawString(text, x, y);
             }
             case PLAY -> {
+                // background
+                if (background != null) {
+                    g.drawImage(background, 0, 0, width, height, null);
+                    // dark overlay
+                    g.setColor(new Color(0, 0, 0, 170));
+                    g.fillRect(0, 0, width, height);
+                }
                 // cat
-                // g.drawImage....
+                if (cat.getImg() != null) {
+                    Image sprite = cat.getImg();
+                    int frameWidth = sprite.getWidth(null) / cat.getFrameCount();
+                    int frameHeight = sprite.getHeight(null);
+                    int sourceX = cat.getCurrentFrame() * frameWidth;
 
-                g.setColor(Color.orange);
-                g.fillOval(cat.getX(), cat.getY(), cat.getSize(), cat.getSize());
+                    g.drawImage(sprite,
+                            cat.getX(),
+                            cat.getY(),
+                            cat.getX() + cat.getSize(),
+                            cat.getY() + cat.getSize(),
+                            sourceX,
+                            0,
+                            sourceX + frameWidth,
+                            frameHeight,
+                            null);
+                } else {
+                    // privremeni prikaz ako slika nije pronadjena
+                    g.setColor(Color.orange);
+                    g.fillOval(cat.getX(), cat.getY(), cat.getSize(), cat.getSize());
+                }
+
                 // pipes
-                //...
-                g.setColor(Color.pink);
                 for (Pipe p : pipes) {
-                    // top
-                    g.fillRect(p.getX(), 0, p.getWidth(), p.getTopHeight());
-                    // bottom
-                    g.fillRect(p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY());
+                    if (p.getImg() != null) {
+                        // top
+                        g.drawImage(p.getImg(), p.getX(), 0, p.getWidth(), p.getTopHeight(), null);
+                        // bottom
+                        g.drawImage(p.getImg(), p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY(), null);
+                        // dark overlays
+                        g.setColor(new Color(0, 0, 0, 150));
+                        g.fillRect(p.getX(), 0, p.getWidth(), p.getTopHeight());
+                        g.fillRect(p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY());
+                    } else {
+                        g.setColor(Color.pink);
+                        // top
+                        g.fillRect(p.getX(), 0, p.getWidth(), p.getTopHeight());
+                        // bottom
+                        g.fillRect(p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY());
+                    }
                 }
 
                 // score
@@ -149,7 +192,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 g.drawString(text, x, y);
 
                 // restart
-                this.add(btnRestart);
+                btnRestart.setVisible(true);
 
                 // score
                 text = "Your score: " + score;
@@ -172,6 +215,11 @@ public class GamePanel extends JPanel implements KeyListener {
                 x = (width - metrics.stringWidth(text)) / 2;
                 y += 50;
                 g.drawString(text, x, y);
+
+                // end image
+                if (endImg != null) {
+                    g.drawImage(endImg, width / 2-50, 100, 100, 100, null);
+                }
             }
             default -> {
             }
@@ -245,28 +293,32 @@ public class GamePanel extends JPanel implements KeyListener {
 
     private void restartGame() {
         cat = new Cat(width, height);
-
         pipes.clear();
-
         score = 0;
+        status = GameStatus.PLAY;
 
-        status = GameStatus.START;
+        btnRestart.setVisible(false);
 
-        this.remove(btnRestart);
-
+        gameLoop.start();
+        pipeTimer.start();
+        
         repaint();
+        requestFocusInWindow();
     }
 
     private void addRestartButton() {
         btnRestart = new JButton("↻");
         btnRestart.setFont(new Font("Monospaced", Font.BOLD, 20));
         btnRestart.setForeground(Color.white);
-        btnRestart.setBackground(Color.orange);
-        btnRestart.setBorder(BorderFactory.createLineBorder(Color.white, 2, true));
-        btnRestart.setBounds(width - 85, 50, 35, 35);
+        btnRestart.setBackground(Color.red);
+        btnRestart.setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
+        btnRestart.setBounds((width - 160) / 2, height - 320, 160, 45);
         btnRestart.addActionListener((ActionEvent e) -> {
             restartGame();
         });
+
+        setLayout(null);
+        add(btnRestart);
     }
 
 }

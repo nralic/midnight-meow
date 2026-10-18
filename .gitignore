@@ -4,6 +4,10 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+/SmellyCat/nbproject/private/
+/SmellyCat/build/
+/SmellyCat/dist/
+/SmellyCat/data/best-score.txt
 
 # Compiled Java files
 *.class

@@ -6,6 +6,7 @@ package smellycat.components;
 
 import java.awt.Image;
 import java.util.Random;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -33,18 +34,23 @@ public class Pipe {
 
     public Pipe(int boardWidth, int boardHeight, int catSize) {
         x = boardWidth;
-        width = catSize * 2;
 
-        MIN_HEIGHT = boardHeight / 8;
+        // sirina cevi prilagodjena macki velicine 64 px
+        width = (int) (catSize * 1.2);
+
+        MIN_HEIGHT = boardHeight / 6;
         MAX_HEIGHT = boardHeight - 2 * MIN_HEIGHT;
 
         topHeight = random.nextInt(MIN_HEIGHT, MAX_HEIGHT + 1);
 
-        gap = catSize * 4;
+        gap = (int) (catSize * 2.5);
 
         bottomY = topHeight + gap;
 
         velocity = -4;
+
+        img = new ImageIcon(getClass().getResource("/resources/images/PipeStyle1.png")).getImage();
+
     }
 
     public void move() {
@@ -73,6 +79,10 @@ public class Pipe {
 
     public void setPassed(boolean passed) {
         this.passed = passed;
+    }
+
+    public Image getImg() {
+        return img;
     }
 
 }
