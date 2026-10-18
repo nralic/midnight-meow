@@ -1,62 +1,42 @@
-# 🐱 Smelly Cat 🍌
+# 🐈‍⬛ Smelly Cat: Witch Flight 🧹
 
 *Smelly Cat, Smelly Cat, what are they feeding you?*
 
-A tiny Java Swing game inspired by Flappy Bird, Phoebe Buffay, and questionable life choices.
+A small Java Swing game inspired by Flappy Bird, Phoebe Buffay, Halloween and a suspicious amount of witchcraft.
 
-## 🎮 The Concept
+## 🎮 About the Game
 
-You're a cat.  
-You're wearing a banana costume.  
-You're flying through the air.  
-Nobody knows why.
-
-Your mission? Dodge the pipes, stay alive, and try not to become a Smelly Pancake.
+Play as a witch cat flying on a broomstick. Dodge pipes, survive as long as possible, and try not to fail your flying exam.
 
 ## 🕹️ Controls
 
-- `SPACE` — Start the game
-- `SPACE` — Fly
-- `SPACE` — Panic and try again
-
-One key. One cat. Absolutely no survival instincts.
+- `SPACE` — Start and fly
+- `PLAY AGAIN` — Try again (the cat clearly learned nothing)
 
 ## ✨ Features
 
-- 🐈 A very aerodynamic cat
-- 🍌 A banana costume (fashion icon)
-- 🟩 Rectangular pipes because we're artists
-- 🏆 A score to brag about to absolutely nobody
-- 💀 Game Over, because life is unfair
-- 🔁 Unlimited chances to embarrass yourself
+- 🐈‍⬛ Animated witch cat
+- 🧹 Magical broomstick flight
+- 🌙 Custom background and obstacles
+- 🏆 Score and saved best score
+- 💀 Game Over and restart screens
 
 ## 🛠️ Built With
 
 - Java
 - Java Swing
 - Apache Ant
-- Pure imagination and questionable decisions
 
-No game engines. No fancy graphics. Just Java, rectangles, and a dream.
+No game engine. Just Java, a flying cat, and questionable career choices.
 
-## 🚧 Development Status
+## 🚧 Status
 
-**Work in progress. The cat is doing its best.**
+**Work in progress. The cat is still learning to fly.**
 
-Currently featuring geometric placeholders. Custom graphics and more banana-powered chaos may arrive in the future.
-
-## 🎵 Important Life Question
+## 💜 One Last Question
 
 *Smelly Cat, Smelly Cat, what are they feeding you?*
 
-We don't know.
-
-We're honestly a little concerned.
-
-## 💜 Why?
-
-Because not every project needs to change the world.
-
-Some projects just need a flying cat in a banana costume.
+Whatever it is, it's definitely not approved by the aviation authorities.
 
 **Could this BE any more ridiculous?**
