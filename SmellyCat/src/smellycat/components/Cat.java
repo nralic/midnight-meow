@@ -37,7 +37,7 @@ public class Cat {
         gravity = 1;
 
         // ucitavanje sprite sheet-a
-        img = new ImageIcon(getClass().getResource("/resources/images/WitchFlying.png")).getImage();
+        img = new ImageIcon(getClass().getResource("/resources/images/witch_flying.png")).getImage();
     }
 
     public int getX() {

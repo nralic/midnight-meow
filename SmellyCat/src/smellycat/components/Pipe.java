@@ -49,7 +49,7 @@ public class Pipe {
 
         velocity = -4;
 
-        img = new ImageIcon(getClass().getResource("/resources/images/PipeStyle1.png")).getImage();
+        img = new ImageIcon(getClass().getResource("/resources/images/pipe.png")).getImage();
 
     }
 

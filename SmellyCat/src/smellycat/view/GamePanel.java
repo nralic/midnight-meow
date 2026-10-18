@@ -5,6 +5,7 @@
 package smellycat.view;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements KeyListener {
         setFocusable(true);
         addKeyListener(this);
 
-        background = new ImageIcon(getClass().getResource("/resources/images/Background4.png")).getImage();
+        background = new ImageIcon(getClass().getResource("/resources/images/background.png")).getImage();
 
         status = GameStatus.START;
 
@@ -86,7 +87,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         bestScore = ScoreStorage.loadBestScore();
 
-        endImg = new ImageIcon(getClass().getResource("/resources/images/EvilBox1.png")).getImage();
+        endImg = new ImageIcon(getClass().getResource("/resources/images/evil_box.png")).getImage();
     }
 
     @Override
@@ -103,8 +104,8 @@ public class GamePanel extends JPanel implements KeyListener {
         switch (status) {
             case START -> {
                 g.setColor(Color.white);
-                String text = "SMELLY CAT";
-                g.setFont(new Font("Monospaced", Font.BOLD, 32));
+                String text = "SMELLY CAT: WITCH FLIGHT";
+                g.setFont(new Font("Monospaced", Font.BOLD, 27));
                 FontMetrics metrics = g.getFontMetrics();
                 int x = (width - metrics.stringWidth(text)) / 2;
                 int y = (int) (height / 2.5);
@@ -116,7 +117,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 y = (int) (height / 2.5 + 50);
                 g.drawString(text, x, y);
                 text = "Oh I wish I could, but I don't want to.";
-                g.setFont(new Font("Monospaced", Font.BOLD, 13));
+                g.setFont(new Font("Monospaced", Font.BOLD, 15));
                 metrics = g.getFontMetrics();
                 x = (width - metrics.stringWidth(text)) / 2;
                 y = height - 100;
@@ -127,7 +128,7 @@ public class GamePanel extends JPanel implements KeyListener {
                 if (background != null) {
                     g.drawImage(background, 0, 0, width, height, null);
                     // dark overlay
-                    g.setColor(new Color(0, 0, 0, 170));
+                    g.setColor(new Color(0, 0, 0, 80));
                     g.fillRect(0, 0, width, height);
                 }
                 // cat
@@ -161,11 +162,11 @@ public class GamePanel extends JPanel implements KeyListener {
                         // bottom
                         g.drawImage(p.getImg(), p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY(), null);
                         // dark overlays
-                        g.setColor(new Color(0, 0, 0, 150));
+                        g.setColor(new Color(0, 0, 0, 120));
                         g.fillRect(p.getX(), 0, p.getWidth(), p.getTopHeight());
                         g.fillRect(p.getX(), p.getBottomY(), p.getWidth(), this.getHeight() - p.getBottomY());
                     } else {
-                        g.setColor(Color.pink);
+                        g.setColor(Color.red);
                         // top
                         g.fillRect(p.getX(), 0, p.getWidth(), p.getTopHeight());
                         // bottom
@@ -218,7 +219,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
                 // end image
                 if (endImg != null) {
-                    g.drawImage(endImg, width / 2-50, 100, 100, 100, null);
+                    g.drawImage(endImg, width / 2 - 50, 100, 100, 100, null);
                 }
             }
             default -> {
@@ -301,7 +302,7 @@ public class GamePanel extends JPanel implements KeyListener {
 
         gameLoop.start();
         pipeTimer.start();
-        
+
         repaint();
         requestFocusInWindow();
     }
@@ -316,6 +317,10 @@ public class GamePanel extends JPanel implements KeyListener {
         btnRestart.addActionListener((ActionEvent e) -> {
             restartGame();
         });
+        btnRestart.setFocusPainted(false);
+        btnRestart.setContentAreaFilled(false);
+        btnRestart.setOpaque(true);
+        btnRestart.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         setLayout(null);
         add(btnRestart);
