@@ -4,10 +4,12 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-/SmellyCat/nbproject/private/
-/SmellyCat/build/
-/SmellyCat/dist/
-/SmellyCat/data/best-score.txt
+
+# MidnightMeow
+/MidnightMeow/nbproject/private/
+/MidnightMeow/build/
+/MidnightMeow/dist/
+/MidnightMeow/data/best-score.txt
 
 # Compiled Java files
 *.class
@@ -19,4 +21,3 @@
 # Operating system files
 .DS_Store
 Thumbs.db
-/MidnightMeow/build/
