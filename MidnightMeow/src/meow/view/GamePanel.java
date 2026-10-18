@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package smellycat.view;
+package meow.view;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -21,10 +21,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import smellycat.components.Cat;
-import smellycat.components.Pipe;
-import smellycat.enums.GameStatus;
-import smellycat.storage.ScoreStorage;
+import meow.audio.MusicPlayer;
+import meow.audio.ScreamPlayer;
+import meow.components.Cat;
+import meow.components.Pipe;
+import meow.enums.GameStatus;
+import meow.storage.ScoreStorage;
 
 /**
  *
@@ -52,6 +54,12 @@ public class GamePanel extends JPanel implements KeyListener {
     private JButton btnRestart;
 
     private final Image endImg;
+
+    private MusicPlayer musicPlayer;
+
+    private Image jumpscareImg;
+    private ScreamPlayer screamPlayer;
+    private Timer jumpscareTimer;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -88,6 +96,12 @@ public class GamePanel extends JPanel implements KeyListener {
         bestScore = ScoreStorage.loadBestScore();
 
         endImg = new ImageIcon(getClass().getResource("/resources/images/evil_box.png")).getImage();
+
+        musicPlayer = new MusicPlayer();
+        musicPlayer.playMusic();
+
+        jumpscareImg = new ImageIcon(getClass().getResource("/resources/images/cat_jump.png")).getImage();
+        screamPlayer = new ScreamPlayer();
     }
 
     @Override
@@ -104,24 +118,33 @@ public class GamePanel extends JPanel implements KeyListener {
         switch (status) {
             case START -> {
                 g.setColor(Color.white);
-                String text = "SMELLY CAT: WITCH FLIGHT";
-                g.setFont(new Font("Monospaced", Font.BOLD, 27));
+                String text = "MIDNIGHT MEOW: HALLOWEEN EDITION";
+                g.setFont(new Font("Monospaced", Font.BOLD, 20));
                 FontMetrics metrics = g.getFontMetrics();
                 int x = (width - metrics.stringWidth(text)) / 2;
                 int y = (int) (height / 2.5);
                 g.drawString(text, x, y);
+
                 text = "PRESS SPACE TO START";
-                g.setFont(new Font("Monospaced", Font.BOLD, 18));
+                g.setFont(new Font("Monospaced", Font.BOLD, 16));
                 metrics = g.getFontMetrics();
                 x = (width - metrics.stringWidth(text)) / 2;
                 y = (int) (height / 2.5 + 50);
                 g.drawString(text, x, y);
-                text = "Oh I wish I could, but I don't want to.";
-                g.setFont(new Font("Monospaced", Font.BOLD, 15));
+
+                text = "Take a chance and roll the dice";
+                g.setFont(new Font("Monospaced", Font.ITALIC, 15));
                 metrics = g.getFontMetrics();
                 x = (width - metrics.stringWidth(text)) / 2;
                 y = height - 100;
                 g.drawString(text, x, y);
+                text = "Ride with the moon in the dead of night";
+                g.setFont(new Font("Monospaced", Font.ITALIC, 15));
+                metrics = g.getFontMetrics();
+                x = (width - metrics.stringWidth(text)) / 2;
+                y = height - 80;
+                g.drawString(text, x, y);
+
             }
             case PLAY -> {
                 // background
@@ -185,8 +208,8 @@ public class GamePanel extends JPanel implements KeyListener {
             }
             case GAME_OVER -> {
                 g.setColor(Color.white);
-                String text = "It's not your fault!";
-                g.setFont(new Font("Monospaced", Font.BOLD, 28));
+                String text = "Life's no fun without a good scare";
+                g.setFont(new Font("Monospaced", Font.ITALIC, 20));
                 FontMetrics metrics = g.getFontMetrics();
                 int x = (width - metrics.stringWidth(text)) / 2;
                 int y = (int) (height / 2.5);
@@ -222,6 +245,9 @@ public class GamePanel extends JPanel implements KeyListener {
                     g.drawImage(endImg, width / 2 - 50, 100, 100, 100, null);
                 }
             }
+            case JUMP -> {
+                g.drawImage(jumpscareImg, 0, 0, width, height, null);
+            }
             default -> {
             }
         }
@@ -251,7 +277,9 @@ public class GamePanel extends JPanel implements KeyListener {
         if (cat.getY() + cat.getSize() >= height || collision()) {
             gameLoop.stop();
             pipeTimer.stop();
-            status = GameStatus.GAME_OVER;
+            musicPlayer.stopMusic();
+
+            startJumpscare();
         }
     }
 
@@ -303,6 +331,8 @@ public class GamePanel extends JPanel implements KeyListener {
         gameLoop.start();
         pipeTimer.start();
 
+        musicPlayer.playMusic();
+
         repaint();
         requestFocusInWindow();
     }
@@ -324,6 +354,32 @@ public class GamePanel extends JPanel implements KeyListener {
 
         setLayout(null);
         add(btnRestart);
+    }
+
+    private void startJumpscare() {
+        status = GameStatus.JUMP;
+
+        if (musicPlayer != null) {
+            musicPlayer.stopMusic();
+        }
+        
+        if (screamPlayer != null) {
+            screamPlayer.playScream();
+        }
+
+        repaint();
+
+        jumpscareTimer = new Timer(2000, e -> {
+            jumpscareTimer.stop();
+            if (screamPlayer != null) {
+                screamPlayer.stopScream();
+            }
+
+            status = GameStatus.GAME_OVER;
+            repaint();
+        });
+        jumpscareTimer.setRepeats(false);
+        jumpscareTimer.start();
     }
 
 }

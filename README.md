@@ -1,42 +1,46 @@
-# 🐈‍⬛ Smelly Cat: Witch Flight 🧹
+# 🎃 Midnight Meow: Halloween Edition 🐈‍⬛
 
-*Smelly Cat, Smelly Cat, what are they feeding you?*
+A Halloween-themed game inspired by Flappy Bird, developed in Java using Swing.
 
-A small Java Swing game inspired by Flappy Bird, Phoebe Buffay, Halloween and a suspicious amount of witchcraft.
-
-## 🎮 About the Game
-
-Play as a witch cat flying on a broomstick. Dodge pipes, survive as long as possible, and try not to fail your flying exam.
-
-## 🕹️ Controls
-
-- `SPACE` — Start and fly
-- `PLAY AGAIN` — Try again (the cat clearly learned nothing)
+🧙‍♀️ Play as a flying witch cat, avoid obstacles, and try to beat your best score! With spooky visuals, Halloween background music, and a jumpscare, the game puts a spooky twist on the classic arcade concept.
 
 ## ✨ Features
 
-- 🐈‍⬛ Animated witch cat
-- 🧹 Magical broomstick flight
-- 🌙 Custom background and obstacles
-- 🏆 Score and saved best score
-- 💀 Game Over and restart screens
+- 🐈‍⬛ Flying witch cat controlled by keyboard input
+- 🧱 Randomly generated obstacles
+- 💥 Collision detection
+- 🏆 Score and best-score tracking
+- 🎮 Start screen and game-over screen
+- 🔄 Restart functionality
+- 🎵 Looping Halloween background music
+
+## 🎮 Controls
+
+- **Space** — Start the game and make the cat fly
+- **Restart button** — Start a new game after game over
 
 ## 🛠️ Built With
 
-- Java
-- Java Swing
-- Apache Ant
+- ☕ Java 17
+- 🖼️ Java Swing and AWT
+- 🔊 Java Sound API
+- 🐜 Apache Ant
+- 💻 NetBeans IDE
 
-No game engine. Just Java, a flying cat, and questionable career choices.
+## 🚀 How to Run
 
-## 🚧 Status
+1. 📥 Clone or download the repository.
+2. 💻 Open the project in NetBeans.
+3. 📦 Make sure all required image and sound resources are included.
+4. ▶️ Build and run the project.
 
-**Work in progress. The cat is still learning to fly.**
+## 🐈‍⬛ About the Project
 
-## 💜 One Last Question
+**Midnight Meow: Halloween Edition** is a personal Java project that combines arcade-style gameplay with a spooky Halloween theme.
 
-*Smelly Cat, Smelly Cat, what are they feeding you?*
+🕸️ The project explores Java programming, object-oriented design, game loops, collision detection, keyboard input, graphics rendering, and audio playback using Swing and the Java Sound API.
 
-Whatever it is, it's definitely not approved by the aviation authorities.
-
-**Could this BE any more ridiculous?**
+🎃 *Boys and girls of every age  
+Wouldn't you like to see something strange?  
+Come with us and you will see  
+This, our town of Halloween.* 👻

@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package smellycat.main;
+package meow.main;
 
 import javax.swing.JFrame;
-import smellycat.view.GamePanel;
+import meow.view.GamePanel;
 
 /**
  *
@@ -18,7 +18,7 @@ public class Main {
         int boardWidth = 460;
         int boardHeight = 640;
 
-        JFrame frame = new JFrame("Smelly cat");
+        JFrame frame = new JFrame("MIDNIGHT MEOW: HALLOWEEN EDITION");
         frame.setSize(boardWidth, boardHeight);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
